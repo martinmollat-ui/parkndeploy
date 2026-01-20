@@ -30,9 +30,6 @@ module appService 'modules/appService.bicep' = {
 
 param swaLocation string // Static Web App locations are limited, we need to add another variable
 
-// App Service & App Service Plan creation
-// ...
-
 // Create the Static Web App through the StaticWebApp module
 module staticWebApp 'modules/staticWebApp.bicep' = {
   name: 'staticWebApp'
@@ -40,6 +37,15 @@ module staticWebApp 'modules/staticWebApp.bicep' = {
     location: swaLocation
     project: project
     identifier: identifier
+  }
+}
+
+module staticWebAppBackend 'modules/staticWebAppBackend.bicep' = {
+  name: 'staticWebAppBackend'
+  params: {
+    backendBindedResourceId: appService.outputs.appServiceId
+    swaName: staticWebApp.outputs.swaName
+    location: location
   }
 }
 
