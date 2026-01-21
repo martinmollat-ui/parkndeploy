@@ -46,16 +46,11 @@ jobs:
         with:
           node-version: 18
 
-      - name: Create artifact directory
-        run: mkdir -p ./artifact/frontend
-
-      - name: Copy build files to artifact directory
-        run: cp -r ./frontend/build/* ./artifact/frontend/
-
       - name: Upload Frontend Artifact
         uses: actions/upload-artifact@v4
         with:
           name: frontend-artifact
+          path: ./artifact/frontend
 
   # créer le backend .NET avec dotnet build
   backend-build:
@@ -93,12 +88,6 @@ jobs:
           uses: actions/setup-dotnet@v4
           with:
             dotnet-version: 7.0.x
-
-        - name: Create artifact directory
-          run: mkdir -p ./artifact/backend
-
-        - name: Copy build files to artifact directory
-          run: cp -r ./backend/bin/Debug/net7.0/* ./artifact/backend/
 
         - name: Upload Backend Artifact
           uses: actions/upload-artifact@v4
