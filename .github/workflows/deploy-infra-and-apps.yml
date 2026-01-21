@@ -1,3 +1,4 @@
+name: Deploy Infrastructure and Applications
 on: 
   push:
     tags:
