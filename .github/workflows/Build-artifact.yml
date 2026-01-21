@@ -50,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: frontend-artifact
-          path: ./frontend
+          path: ./artifact/frontend
 
   # créer le backend .NET avec dotnet build
   backend-build:
@@ -93,4 +93,4 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: backend-artifact
-            path: ./backend
+            path: ./artifact/backend
