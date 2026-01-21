@@ -1,0 +1,107 @@
+name: Build-and-Upload-Artifacts
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  # créer l'app React
+  frontend-build:
+    name: Build Frontend 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./frontend
+
+      - name : Build React App
+        run: npm run build
+        working-directory: ./frontend
+
+      - name : Run lint
+        run: npm run lint
+        working-directory: ./frontend
+
+  # créer l'artifact frontend après build
+  frontend-artifact:
+    name: Frontend Artifact
+    runs-on: ubuntu-latest
+    needs: frontend-build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Create artifact directory
+        run: mkdir -p ./artifact/frontend
+
+      - name: Copy build files to artifact directory
+        run: cp -r ./frontend/build/* ./artifact/frontend/
+
+      - name: Upload Frontend Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-artifact
+
+  # créer le backend .NET avec dotnet build
+  backend-build:
+    name: Build Backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 7.0.x
+      
+      - name : Restore Dependencies
+        run: dotnet restore
+        working-directory: ./backend
+
+      - name: Build backend
+        run: dotnet build -c Release
+        working-directory: ./backend
+
+  # créer l'artifact backend après build
+  backend-artifact:
+      name: Backend Artifact
+      runs-on: ubuntu-latest
+      needs: backend-build
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: 7.0.x
+
+        - name: Create artifact directory
+          run: mkdir -p ./artifact/backend
+
+        - name: Copy build files to artifact directory
+          run: cp -r ./backend/bin/Debug/net7.0/* ./artifact/backend/
+
+        - name: Upload Backend Artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: backend-artifact
+            path: ./artifact/backend

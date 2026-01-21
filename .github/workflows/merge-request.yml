@@ -33,7 +33,7 @@ jobs:
 
   # créer le backend .NET avec dotnet build
   backend-build:
-    name: Backend
+    name: Build Backend
     runs-on: ubuntu-latest
 
     steps:
