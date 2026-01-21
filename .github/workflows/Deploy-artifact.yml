@@ -69,7 +69,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: backend-artifact
-        path: ./artifact/backend
     
     - name: Login to Azure 
       uses: azure/login@v2
@@ -97,7 +96,6 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: frontend-artifact
-        path: ./artifact/frontend
 
     - name: Login to Azure 
       uses: azure/login@v2
