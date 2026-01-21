@@ -70,7 +70,7 @@ jobs:
       with:
         name: backend-artifact
         run-id: ${{ github.event.workflow_run.id }}  
-        path: ./backend/ParkNDeploy.Api/publish  # Path where the artifact will be downloaded
+        path: ./backend
     
     - name: Login to Azure 
       uses: azure/login@v2
@@ -99,7 +99,7 @@ jobs:
       with:
         name: frontend-artifact
         run-id: ${{ github.event.workflow_run.id }} 
-        path: ./frontend/dist  # Path where the artifact will be downloaded
+        path: ./frontend
 
     - name: Login to Azure 
       uses: azure/login@v2
