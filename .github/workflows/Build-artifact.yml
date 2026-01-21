@@ -53,7 +53,7 @@ jobs:
         run: cp -r ./frontend/build/* ./artifact/frontend/
 
       - name: Upload Frontend Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: frontend-artifact
 
@@ -101,7 +101,7 @@ jobs:
           run: cp -r ./backend/bin/Debug/net7.0/* ./artifact/backend/
 
         - name: Upload Backend Artifact
-          uses: actions/upload-artifact@v3
+          uses: actions/upload-artifact@v4
           with:
             name: backend-artifact
             path: ./artifact/backend
